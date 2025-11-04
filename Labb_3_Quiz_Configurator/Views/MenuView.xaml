@@ -17,8 +17,10 @@
             <MenuItem Header="E_xit" InputGestureText="Alt+F4" />
         </MenuItem>
         <MenuItem Header="_Edit">
-            <MenuItem Header="Add Question" InputGestureText="Insert"/>
-            <MenuItem Header="Remove Question" InputGestureText="Delete" />
+            <MenuItem Header="Add Question" InputGestureText="Insert"
+                      Command="{Binding DataContext.ConfigurationViewModel.AddQuestionCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+            <MenuItem Header="Remove Question" InputGestureText="Delete"
+                      Command="{Binding DataContext.ConfigurationViewModel.RemoveQuestionCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
             <MenuItem Header="Pack Options" InputGestureText="Ctrl+O"/>
             <MenuItem Header="Set PackName" Command="{Binding PlayerViewModel.SetPackNameCommand}"/>
 

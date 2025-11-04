@@ -1,9 +1,11 @@
 ﻿using Labb_3_Quiz_Configurator.Models;
 using System;
 using System.Collections.Generic;
+using System.Windows.Input;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Labb_3_Quiz_Configurator.Command;
 
 namespace Labb_3_Quiz_Configurator.ViewModels
 {
@@ -23,10 +25,45 @@ namespace Labb_3_Quiz_Configurator.ViewModels
 
             }
         }
+        public ICommand AddQuestionCommand { get; }
+        public ICommand RemoveQuestionCommand { get; }
 
         public ConfigurationViewModel(MainWindowViewModel? mainWindowViewModel)
         {
             this._mainWindowViewModel = mainWindowViewModel;
+            AddQuestionCommand = new DelegateCommand(_ => AddQuestion());
+            RemoveQuestionCommand = new DelegateCommand(_ => RemoveQuestion());
+        }
+
+        private void AddQuestion()
+        {
+            if (ActivePack != null)
+            {
+                var newQuestion = new Question(
+                    "New Question",
+                    "",
+                    "",
+                    "",
+                    ""
+                );
+
+                ActivePack.Questions.Add(newQuestion);
+                ActiveQuestion = newQuestion;
+            }
+        }
+
+        private void RemoveQuestion()
+        {
+            if (ActivePack != null && ActiveQuestion != null)
+            {
+                ActivePack.Questions.Remove(ActiveQuestion);
+
+                if (ActivePack.Questions.Count > 0)
+                    ActiveQuestion = ActivePack.Questions[0];
+                else
+                    ActiveQuestion = null;
+            }
+
         }
 
     }

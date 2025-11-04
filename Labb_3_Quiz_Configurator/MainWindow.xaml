@@ -7,7 +7,15 @@
         xmlns:views="clr-namespace:Labb_3_Quiz_Configurator.Views"
         mc:Ignorable="d"
         d:Height="800" d:Width="500"
-        Title="MainWindow" Height="450" Width="800" >
+        Title="MainWindow" Height="450" Width="800">
+    
+    
+    <Window.InputBindings>
+        <KeyBinding Key="Insert" Command="{Binding ConfigurationViewModel.AddQuestionCommand}"/>
+        <KeyBinding Key="Delete" Command="{Binding ConfigurationViewModel.RemoveQuestionCommand}"/>
+
+    </Window.InputBindings>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

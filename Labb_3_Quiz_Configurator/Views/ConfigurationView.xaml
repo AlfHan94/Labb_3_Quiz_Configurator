@@ -19,16 +19,26 @@
         <DockPanel HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="0">
             <Label Content="{Binding ActivePack.Name}" FontWeight="Bold"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Margin="5" Content="="/>
-                <Button Margin="5" Content="+"/>
-                <Button Margin="5" Content="-"/>
+                <Button Width="20" Margin="5" Content="="/>
+                <Button Width="20" Margin="5" Content="+" Command="{Binding AddQuestionCommand}"/>
+                <Button Width="20" Margin="5" Content="-" Command="{Binding RemoveQuestionCommand}"/>
             </StackPanel>
         </DockPanel>
         <ListBox Grid.Row="1" Margin="5" ItemsSource="{Binding ActivePack.Questions}"
                  DisplayMemberPath="Query" SelectedItem="{Binding ActiveQuestion}"/>
 
         <StackPanel Orientation="Vertical" Grid.Column="1" Grid.RowSpan="2">
-        <Label Content="Question:" FontWeight="Bold"/>
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ActiveQuestion}" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+            <Label Content="Question:" FontWeight="Bold"/>
             <TextBox Height="100" Margin="5 0 30 0" Text="{Binding ActiveQuestion.Query}"/>
             <Label Content="Correct Answer:" FontWeight="Bold"/>
             <TextBox Margin="5 0 30 0" Text="{Binding ActiveQuestion.CorrectAnswer}"/>
@@ -37,7 +47,7 @@
             <Label Content="Second Incorrect Answer:" FontWeight="Bold"/>
             <TextBox Margin="5 0 30 0" Text="{Binding ActiveQuestion.IncorrectAnswers[1]}"/>
             <Label Content="Third Incorrect Answer:" FontWeight="Bold"/>
-            <TextBox Margin="5 0 30 0" Text="{Binding ActiveQuestion.InccorectAnswers[2]}"/>
+            <TextBox Margin="5 0 30 0" Text="{Binding ActiveQuestion.IncorrectAnswers[2]}"/>
 
         </StackPanel>
 
