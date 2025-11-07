@@ -1,12 +1,53 @@
 ﻿<Window x:Class="Labb_3_Quiz_Configurator.Dialogs.PackOptionsDialog"
+        Window.DataContext="{Binding}"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Labb_3_Quiz_Configurator.Dialogs"
+        xmlns:models="clr-namespace:Labb_3_Quiz_Configurator.Models"
         mc:Ignorable="d"
-        Title="PackOptionsDialog" Height="450" Width="800">
-    <Grid>
+        Title="Pack Options" 
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner">
+    
+    
+    
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Pack Name:" FontWeight="Bold"/>
+        <TextBox Grid.Row="1" Text="{Binding Name}" Margin="5 5 10 10"/>
         
+        <Label Grid.Row="2" Content="Difficulty:" FontWeight="Bold"/>
+        <ComboBox Grid.Row="3"
+                  SelectedItem="{Binding Difficulty}"
+                  ItemsSource="{x:Static models:DifficultyEnumValues.All}"
+                  Margin="5 5 10 15">
+        </ComboBox>
+
+        <Label Grid.Row="4" Content="Time Limit:" FontWeight="Bold"/>
+        <StackPanel Grid.Row="5" Orientation="Horizontal" VerticalAlignment="Center">
+            <Slider Width="140"
+                    Minimum="5"
+                    Maximum="60"
+                    Value="{Binding TimeLimitInSeconds}"
+                    TickFrequency="5"
+                    IsSnapToTickEnabled="True"
+                    TickPlacement="BottomRight"/>
+            <TextBlock Text="{Binding TimeLimitInSeconds}" Margin="5 0 5 0"/>
+            <TextBlock Text="seconds"/>
+
+
+        </StackPanel>
+
     </Grid>
 </Window>

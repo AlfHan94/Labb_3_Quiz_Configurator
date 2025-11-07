@@ -1,4 +1,5 @@
-﻿using Labb_3_Quiz_Configurator.Models;
+﻿using Labb_3_Quiz_Configurator.Command;
+using Labb_3_Quiz_Configurator.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,6 +13,8 @@ namespace Labb_3_Quiz_Configurator.ViewModels
     {
 
         public ObservableCollection<QuestionPackViewModel> Packs { get; } = new();
+
+        public DelegateCommand SetActivePackCommand { get; }
 
         private QuestionPackViewModel _activePack;
 
@@ -33,6 +36,8 @@ namespace Labb_3_Quiz_Configurator.ViewModels
         {
             PlayerViewModel = new PlayerViewModel(this);
             ConfigurationViewModel = new ConfigurationViewModel(this);
+
+            SetActivePackCommand = new DelegateCommand(p => ActivePack = (QuestionPackViewModel)p);
 
             var pack = new QuestionPack("MyQuestionPack");
             ActivePack = new QuestionPackViewModel(pack);

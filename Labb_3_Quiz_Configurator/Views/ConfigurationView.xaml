@@ -19,9 +19,23 @@
         <DockPanel HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="0">
             <Label Content="{Binding ActivePack.Name}" FontWeight="Bold"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Width="20" Margin="5" Content="="/>
-                <Button Width="20" Margin="5" Content="+" Command="{Binding AddQuestionCommand}"/>
-                <Button Width="20" Margin="5" Content="-" Command="{Binding RemoveQuestionCommand}"/>
+                <Button Width="20" 
+                        Margin="5"
+                        FontFamily="Segoe MDL2 Assets"
+                        Content="&#xE713;"
+                        Command="{Binding OpenPackOptionsCommand}"/>
+                
+                <Button Width="20" 
+                        Margin="5" 
+                        FontFamily="Segoe MDL2 Assets"
+                        Content="&#xE710;" 
+                        Command="{Binding AddQuestionCommand}"/>
+                
+                <Button Width="20"
+                        Margin="5"
+                        FontFamily="Segoe MDL2 Assets"
+                        Content="&#xE738;"
+                        Command="{Binding RemoveQuestionCommand}"/>
             </StackPanel>
         </DockPanel>
         <ListBox Grid.Row="1" Margin="5" ItemsSource="{Binding ActivePack.Questions}"

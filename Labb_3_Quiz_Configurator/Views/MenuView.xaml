@@ -9,7 +9,17 @@
     <Menu>
         <MenuItem Header="_File">
             <MenuItem Header="_New Question Pack"/>
-            <MenuItem Header="_Select Question Pack"/>
+            <MenuItem Header="_Select Question Pack" ItemsSource="{Binding DataContext.Packs, RelativeSource={RelativeSource AncestorType=Window}}">
+                <MenuItem.ItemContainerStyle>
+                    <Style TargetType="MenuItem">
+                        <Setter Property="Header" Value="{Binding Name}"/>
+                        <Setter Property="Command"
+                                Value="{Binding DataContext.SetActivePackCommand, RelativeSource={RelativeSource AncestorType=Menu}}"/>
+                        <Setter Property="CommandParameter" Value="{Binding}"/>
+                    </Style>
+                </MenuItem.ItemContainerStyle>
+            </MenuItem>
+
             <MenuItem Header="Delete Question Pack"/>
             <Separator/>
             <MenuItem Header="Import Questions" InputGestureText="Ctrl+I"/>
@@ -21,7 +31,9 @@
                       Command="{Binding DataContext.ConfigurationViewModel.AddQuestionCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
             <MenuItem Header="Remove Question" InputGestureText="Delete"
                       Command="{Binding DataContext.ConfigurationViewModel.RemoveQuestionCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
-            <MenuItem Header="Pack Options" InputGestureText="Ctrl+O"/>
+            <MenuItem Header="Pack Options"
+                      Command="{Binding ConfigurationViewModel.OpenPackOptionsCommand}"
+                      InputGestureText="Ctrl+O"/>
             <MenuItem Header="Set PackName" Command="{Binding PlayerViewModel.SetPackNameCommand}"/>
 
         </MenuItem>

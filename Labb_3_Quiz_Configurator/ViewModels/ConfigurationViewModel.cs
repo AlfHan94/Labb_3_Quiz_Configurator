@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Labb_3_Quiz_Configurator.Command;
+using Labb_3_Quiz_Configurator.Dialogs;
 
 namespace Labb_3_Quiz_Configurator.ViewModels
 {
@@ -27,12 +28,14 @@ namespace Labb_3_Quiz_Configurator.ViewModels
         }
         public ICommand AddQuestionCommand { get; }
         public ICommand RemoveQuestionCommand { get; }
+        public ICommand OpenPackOptionsCommand { get; }
 
         public ConfigurationViewModel(MainWindowViewModel? mainWindowViewModel)
         {
             this._mainWindowViewModel = mainWindowViewModel;
             AddQuestionCommand = new DelegateCommand(_ => AddQuestion());
             RemoveQuestionCommand = new DelegateCommand(_ => RemoveQuestion());
+            OpenPackOptionsCommand = new DelegateCommand(_ => OpenPackOptions());
         }
 
         private void AddQuestion()
@@ -63,8 +66,16 @@ namespace Labb_3_Quiz_Configurator.ViewModels
                 else
                     ActiveQuestion = null;
             }
-
         }
+
+        private void OpenPackOptions()
+        {
+            var dialog = new PackOptionsDialog();
+            dialog.DataContext = ActivePack;
+            dialog.ShowDialog();
+        }
+
+
 
     }
 }
