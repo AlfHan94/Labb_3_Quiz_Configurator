@@ -6,9 +6,12 @@
              xmlns:local="clr-namespace:Labb_3_Quiz_Configurator.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
     <Menu>
         <MenuItem Header="_File">
-            <MenuItem Header="_New Question Pack"/>
+            <MenuItem Header="_New Question Pack"
+                      Command="{Binding ConfigurationViewModel.OpenNewQuestionPackCommand}"
+                      />
             <MenuItem Header="_Select Question Pack" ItemsSource="{Binding DataContext.Packs, RelativeSource={RelativeSource AncestorType=Window}}">
                 <MenuItem.ItemContainerStyle>
                     <Style TargetType="MenuItem">
@@ -30,12 +33,12 @@
             <MenuItem Header="Add Question" InputGestureText="Insert"
                       Command="{Binding DataContext.ConfigurationViewModel.AddQuestionCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
             <MenuItem Header="Remove Question" InputGestureText="Delete"
-                      Command="{Binding DataContext.ConfigurationViewModel.RemoveQuestionCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
+                      Command="{Binding DataContext.ConfigurationViewModel.RemoveQuestionCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+            <Separator/>
             <MenuItem Header="Pack Options"
                       Command="{Binding ConfigurationViewModel.OpenPackOptionsCommand}"
                       InputGestureText="Ctrl+O"/>
-            <MenuItem Header="Set PackName" Command="{Binding PlayerViewModel.SetPackNameCommand}"/>
-
+      
         </MenuItem>
         <MenuItem Header="_View">
 

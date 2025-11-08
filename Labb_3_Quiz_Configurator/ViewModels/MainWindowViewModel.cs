@@ -16,6 +16,8 @@ namespace Labb_3_Quiz_Configurator.ViewModels
 
         public DelegateCommand SetActivePackCommand { get; }
 
+        public DelegateCommand CreateNewPackCommand { get; }
+
         private QuestionPackViewModel _activePack;
 
         public QuestionPackViewModel ActivePack
@@ -38,7 +40,6 @@ namespace Labb_3_Quiz_Configurator.ViewModels
             ConfigurationViewModel = new ConfigurationViewModel(this);
 
             SetActivePackCommand = new DelegateCommand(p => ActivePack = (QuestionPackViewModel)p);
-
             var pack = new QuestionPack("MyQuestionPack");
             ActivePack = new QuestionPackViewModel(pack);
             ActivePack.Questions.Add(new Question($"Vad är 1+1", "2", "3", "1", "4"));

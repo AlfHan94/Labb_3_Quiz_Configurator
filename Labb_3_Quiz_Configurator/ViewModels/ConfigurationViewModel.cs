@@ -29,6 +29,8 @@ namespace Labb_3_Quiz_Configurator.ViewModels
         public ICommand AddQuestionCommand { get; }
         public ICommand RemoveQuestionCommand { get; }
         public ICommand OpenPackOptionsCommand { get; }
+        public ICommand OpenNewQuestionPackCommand { get; }
+
 
         public ConfigurationViewModel(MainWindowViewModel? mainWindowViewModel)
         {
@@ -36,6 +38,7 @@ namespace Labb_3_Quiz_Configurator.ViewModels
             AddQuestionCommand = new DelegateCommand(_ => AddQuestion());
             RemoveQuestionCommand = new DelegateCommand(_ => RemoveQuestion());
             OpenPackOptionsCommand = new DelegateCommand(_ => OpenPackOptions());
+            OpenNewQuestionPackCommand = new DelegateCommand(_ => OpenNewQuestionPack());
         }
 
         private void AddQuestion()
@@ -75,6 +78,12 @@ namespace Labb_3_Quiz_Configurator.ViewModels
             dialog.ShowDialog();
         }
 
+        private void OpenNewQuestionPack()
+        {
+            var dialog = new CreateNewPackDialog();
+            dialog.DataContext = ActivePack;
+            dialog.ShowDialog();
+        }
 
 
     }
