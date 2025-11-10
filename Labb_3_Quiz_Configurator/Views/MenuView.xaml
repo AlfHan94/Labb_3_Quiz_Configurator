@@ -10,7 +10,7 @@
     <Menu>
         <MenuItem Header="_File">
             <MenuItem Header="_New Question Pack"
-                      Command="{Binding ConfigurationViewModel.OpenNewQuestionPackCommand}"
+                      Command="{Binding DataContext.ConfigurationViewModel.OpenNewQuestionPackCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                       />
             <MenuItem Header="_Select Question Pack" ItemsSource="{Binding DataContext.Packs, RelativeSource={RelativeSource AncestorType=Window}}">
                 <MenuItem.ItemContainerStyle>
@@ -36,14 +36,16 @@
                       Command="{Binding DataContext.ConfigurationViewModel.RemoveQuestionCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
             <Separator/>
             <MenuItem Header="Pack Options"
-                      Command="{Binding ConfigurationViewModel.OpenPackOptionsCommand}"
+                      Command="{Binding DataContext.ConfigurationViewModel.OpenPackOptionsCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                       InputGestureText="Ctrl+O"/>
       
         </MenuItem>
         <MenuItem Header="_View">
 
-            <MenuItem Header="Play" InputGestureText="Ctrl+P"/>
-            <MenuItem Header="Edit" InputGestureText="Ctrl+E"/>
+            <MenuItem Header="Play" InputGestureText="Ctrl+P"
+                      Command="{Binding DataContext.ShowPlayerViewCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+            <MenuItem Header="Edit" InputGestureText="Ctrl+E"
+                      Command="{Binding DataContext.ShowConfigurationViewCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
             <Separator/>
             <MenuItem Header="Fullscreen" InputGestureText="Ctrl+F"/>
             

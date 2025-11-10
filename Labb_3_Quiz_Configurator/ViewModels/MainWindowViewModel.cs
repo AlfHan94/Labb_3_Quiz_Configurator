@@ -1,53 +1,68 @@
 ﻿using Labb_3_Quiz_Configurator.Command;
 using Labb_3_Quiz_Configurator.Models;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Labb_3_Quiz_Configurator.ViewModels
+namespace Labb_3_Quiz_Configurator.ViewModels;
+
+internal class MainWindowViewModel : ViewModelBase
 {
-    internal class MainWindowViewModel : ViewModelBase
+
+    public ObservableCollection<QuestionPackViewModel> Packs { get; } = new();
+
+    public DelegateCommand SetActivePackCommand { get; }
+
+    public DelegateCommand CreateNewPackCommand { get; }
+    public DelegateCommand ShowConfigurationViewCommand { get; }
+    public DelegateCommand ShowPlayerViewCommand { get; }
+
+
+    private QuestionPackViewModel _activePack;
+
+    public QuestionPackViewModel ActivePack
     {
-
-        public ObservableCollection<QuestionPackViewModel> Packs { get; } = new();
-
-        public DelegateCommand SetActivePackCommand { get; }
-
-        public DelegateCommand CreateNewPackCommand { get; }
-
-        private QuestionPackViewModel _activePack;
-
-        public QuestionPackViewModel ActivePack
+        get => _activePack;
+        set
         {
-            get => _activePack;
-            set
-            {
-                _activePack = value;
-                RaisePropertyChanged();
-                PlayerViewModel?.RaisePropertyChanged(nameof(PlayerViewModel.ActivePack));
-                ConfigurationViewModel?.RaisePropertyChanged(nameof(ConfigurationViewModel.ActivePack));
-            }
+            _activePack = value;
+            RaisePropertyChanged();
+            PlayerViewModel?.RaisePropertyChanged(nameof(PlayerViewModel.ActivePack));
+            ConfigurationViewModel?.RaisePropertyChanged(nameof(ConfigurationViewModel.ActivePack));
         }
-
-        public PlayerViewModel? PlayerViewModel { get; }
-        public ConfigurationViewModel? ConfigurationViewModel { get; }
-        public MainWindowViewModel()     
-        {
-            PlayerViewModel = new PlayerViewModel(this);
-            ConfigurationViewModel = new ConfigurationViewModel(this);
-
-            SetActivePackCommand = new DelegateCommand(p => ActivePack = (QuestionPackViewModel)p);
-            var pack = new QuestionPack("MyQuestionPack");
-            ActivePack = new QuestionPackViewModel(pack);
-            ActivePack.Questions.Add(new Question($"Vad är 1+1", "2", "3", "1", "4"));
-            ActivePack.Questions.Add(new Question($"Vad heter Sveriges huvudstad?", "Stockholm", "Göteborg", "Malmö", "Falkenberg"));
-        }
-
-
-
-
     }
+    private object _currentView;
+    public object CurrentView
+    {
+        get => _currentView;
+        set
+        {
+            _currentView = value;
+            RaisePropertyChanged();
+        }
+    }
+
+
+    public PlayerViewModel? PlayerViewModel { get; }
+    public ConfigurationViewModel? ConfigurationViewModel { get; }
+    public MainWindowViewModel()
+    {
+        PlayerViewModel = new PlayerViewModel(this);
+        ConfigurationViewModel = new ConfigurationViewModel(this);
+
+        CurrentView = ConfigurationViewModel;
+
+        ShowConfigurationViewCommand = new DelegateCommand(_ => CurrentView = ConfigurationViewModel);
+        ShowPlayerViewCommand = new DelegateCommand(_ => CurrentView = PlayerViewModel);
+
+
+        SetActivePackCommand = new DelegateCommand(p => ActivePack = (QuestionPackViewModel)p);
+
+        var pack = new QuestionPack("MyQuestionPack");
+        ActivePack = new QuestionPackViewModel(pack);
+        ActivePack.Questions.Add(new Question($"Vad är 1+1", "2", "3", "1", "4"));
+        ActivePack.Questions.Add(new Question($"Vad heter Sveriges huvudstad?", "Stockholm", "Göteborg", "Malmö", "Falkenberg"));
+    }
+
+
+
+
 }

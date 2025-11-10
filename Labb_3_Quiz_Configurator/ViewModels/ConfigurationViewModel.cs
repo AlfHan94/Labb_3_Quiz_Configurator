@@ -35,6 +35,15 @@ namespace Labb_3_Quiz_Configurator.ViewModels
         public ConfigurationViewModel(MainWindowViewModel? mainWindowViewModel)
         {
             this._mainWindowViewModel = mainWindowViewModel;
+            _mainWindowViewModel.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(MainWindowViewModel.ActivePack))
+                {
+                    RaisePropertyChanged(nameof(ActivePack));
+                    ActiveQuestion = ActivePack?.Questions.FirstOrDefault();
+                }
+            };
+
             AddQuestionCommand = new DelegateCommand(_ => AddQuestion());
             RemoveQuestionCommand = new DelegateCommand(_ => RemoveQuestion());
             OpenPackOptionsCommand = new DelegateCommand(_ => OpenPackOptions());
@@ -60,15 +69,7 @@ namespace Labb_3_Quiz_Configurator.ViewModels
 
         private void RemoveQuestion()
         {
-            if (ActivePack != null && ActiveQuestion != null)
-            {
-                ActivePack.Questions.Remove(ActiveQuestion);
-
-                if (ActivePack.Questions.Count > 0)
-                    ActiveQuestion = ActivePack.Questions[0];
-                else
-                    ActiveQuestion = null;
-            }
+            ActiveQuestion = ActivePack.Questions.FirstOrDefault();
         }
 
         private void OpenPackOptions()
@@ -80,9 +81,16 @@ namespace Labb_3_Quiz_Configurator.ViewModels
 
         private void OpenNewQuestionPack()
         {
+            var newPack = new QuestionPackViewModel(new QuestionPack("New Pack"));
+
             var dialog = new CreateNewPackDialog();
-            dialog.DataContext = ActivePack;
-            dialog.ShowDialog();
+            dialog.DataContext = newPack;
+
+            if (dialog.ShowDialog() == true)
+            {
+                _mainWindowViewModel.Packs.Add(newPack);
+                _mainWindowViewModel.ActivePack = newPack;
+            }
         }
 
 

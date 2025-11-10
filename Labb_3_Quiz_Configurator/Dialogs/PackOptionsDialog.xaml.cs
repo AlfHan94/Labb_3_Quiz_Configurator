@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Labb_3_Quiz_Configurator.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,13 @@ namespace Labb_3_Quiz_Configurator.Dialogs
         public PackOptionsDialog()
         {
             InitializeComponent();
+            DataContext = new CreatePackViewModel();
+        }
+
+        private void Ok_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = true;
+            Close();
         }
     }
 }

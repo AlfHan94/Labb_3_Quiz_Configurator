@@ -22,7 +22,14 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 15 0 0">
+            <Button Content="Cancel" Width="70" Margin="5" IsCancel="True"/>
+            <Button Content="OK" Width="70" Margin="5" IsDefault="True" Click="Ok_Click"/>
+            
+
+        </StackPanel>
 
         <Label Content="Pack Name:" FontWeight="Bold"/>
         <TextBox Grid.Row="1" Text="{Binding Name}" Margin="5 5 10 10"/>
@@ -47,7 +54,7 @@
             <TextBlock Text="seconds"/>
 
 
-        </StackPanel>
+        </StackPanel>       
 
     </Grid>
 </Window>
