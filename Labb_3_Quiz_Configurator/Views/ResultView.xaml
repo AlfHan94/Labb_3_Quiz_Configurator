@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="Labb_3_Quiz_Configurator.Views.ResultView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
+
+            <TextBlock Text="Resultat"
+                       FontSize="36"
+                       Margin="0 0 0 10"
+                       TextAlignment="Center"
+                       FontWeight="Bold"/>
+
+            <TextBlock Text="{Binding ResultText}"
+                       FontSize="24"
+                       TextAlignment="Center"
+                       Margin="0 0 0 20"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Play Again"
+                        Width="120" Margin="5"
+                        Command="{Binding PlayAgainCommand}"/>
+
+                <Button Content="Back to Edit"
+                        Width="120" Margin="5"
+                        Command="{Binding BackToEditCommand}"/>
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

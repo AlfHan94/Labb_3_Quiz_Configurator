@@ -1,23 +1,22 @@
 ﻿using Labb_3_Quiz_Configurator.Command;
 using Labb_3_Quiz_Configurator.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Labb_3_Quiz_Configurator.ViewModels
 {
-    class PlayerViewModel : ViewModelBase
+    public class PlayerViewModel : ViewModelBase
     {
         private readonly MainWindowViewModel? _mainWindowViewModel;
         public DelegateCommand AnswerCommand { get; }
-
-
         public QuestionPackViewModel? ActivePack { get => _mainWindowViewModel?.ActivePack; }
 
         private int _currentQuestionIndex;
-        public Question CurrentQuestion => ActivePack?.Questions[_currentQuestionIndex]?.Model;
+        public int CurrentQuestionIndex
+        {
+            get => _currentQuestionIndex + 1;
+        }
+        public Question? CurrentQuestion
+            => (ActivePack != null && _currentQuestionIndex < ActivePack.Questions.Count)
+            ? ActivePack.Questions[_currentQuestionIndex] : null;
 
         private List<string> _shuffledAnswers;
         public List<string> ShuffledAnswers
@@ -31,40 +30,53 @@ namespace Labb_3_Quiz_Configurator.ViewModels
         {
             get => _selectedAnswer;
             set { _selectedAnswer = value; RaisePropertyChanged(); }
-            
-        }
 
+        }
         public int Score { get; private set; }
         public bool IsAnswering { get; private set; } = true;
-
+        private int _timeRemaining;
+        public int TimeRemaining
+        {
+            get => _timeRemaining;
+            set { _timeRemaining = value; RaisePropertyChanged(); }
+        }
 
         public PlayerViewModel(MainWindowViewModel? mainWindowViewModel)
         {
             this._mainWindowViewModel = mainWindowViewModel;
             AnswerCommand = new DelegateCommand(Answer);
-            StartQuiz();
         }
 
-
-        private void StartQuiz()
+        public void StartQuiz()
         {
+            if (ActivePack == null || ActivePack.Questions == null || ActivePack.Questions.Count == 0)
+                return;
+
             _currentQuestionIndex = 0;
             Score = 0;
             LoadQuestion();
         }
-        
         private void LoadQuestion()
         {
             SelectedAnswer = null;
             IsAnswering = true;
 
-            var answers = new List<string> { CurrentQuestion.CorrectAnswer };
-            answers.AddRange(CurrentQuestion.IncorrectAnswers);
-            ShuffledAnswers = answers.OrderBy(x => Guid.NewGuid()).ToList();
+            if (ActivePack == null || _currentQuestionIndex < 0 || _currentQuestionIndex >= ActivePack.Questions.Count)
+                return;
+
+            var q = CurrentQuestion;
+            if (q == null) return;
+
+            var answers = new List<string> { q.CorrectAnswer };
+            answers.AddRange(q.IncorrectAnswers);
+            ShuffledAnswers = answers.OrderBy(_ => Guid.NewGuid()).ToList();
+
+            TimeRemaining = ActivePack.TimeLimitInSeconds;
+            StartTimer();
 
             RaisePropertyChanged(nameof(CurrentQuestion));
+            RaisePropertyChanged(nameof(CurrentQuestionIndex));
         }
-
         private async void Answer(object selected)
         {
             if (!IsAnswering)
@@ -82,19 +94,33 @@ namespace Labb_3_Quiz_Configurator.ViewModels
             await Task.Delay(2000);
 
             _currentQuestionIndex++;
-            
+            RaisePropertyChanged(nameof(CurrentQuestion));
+            RaisePropertyChanged(nameof(CurrentQuestionIndex));
+
             if (_currentQuestionIndex >= ActivePack.Questions.Count)
             {
                 ShowResultScreen();
                 return;
             }
+
+            LoadQuestion();
         }
 
         private void ShowResultScreen()
         {
-            _mainWindowViewModel.CurrentView = new ResultView(_mainWindowViewModel, Score, ActivePack.Questions.Count);
+            _mainWindowViewModel.CurrentView = new ResultViewModel(_mainWindowViewModel, Score, ActivePack.Questions.Count);
         }
 
+        private async void StartTimer()
+        {
+            while (TimeRemaining > 0 && IsAnswering)
+            {
+                await Task.Delay(1000);
+                TimeRemaining--;
+            }
+            if (IsAnswering)
+                Answer(null);
+        }
 
     }
 }

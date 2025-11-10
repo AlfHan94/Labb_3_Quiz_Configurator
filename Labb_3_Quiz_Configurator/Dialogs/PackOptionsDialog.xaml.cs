@@ -1,35 +1,19 @@
 ﻿using Labb_3_Quiz_Configurator.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
-namespace Labb_3_Quiz_Configurator.Dialogs
+namespace Labb_3_Quiz_Configurator.Dialogs;
+
+public partial class PackOptionsDialog : Window
 {
-    /// <summary>
-    /// Interaction logic for PackOptionsDialog.xaml
-    /// </summary>
-    public partial class PackOptionsDialog : Window
+    public PackOptionsDialog()
     {
-        public PackOptionsDialog()
-        {
-            InitializeComponent();
-            DataContext = new CreatePackViewModel();
-        }
+        InitializeComponent();
+        DataContext = new CreatePackViewModel();
+    }
 
-        private void Ok_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = true;
-            Close();
-        }
+    private void Ok_Click(object sender, RoutedEventArgs e)
+    {
+        DialogResult = true;
+        Close();
     }
 }

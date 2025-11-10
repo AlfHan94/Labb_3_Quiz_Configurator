@@ -10,12 +10,11 @@ using Labb_3_Quiz_Configurator.Dialogs;
 
 namespace Labb_3_Quiz_Configurator.ViewModels
 {
-    class ConfigurationViewModel : ViewModelBase
+    public class ConfigurationViewModel : ViewModelBase
     {
         private readonly MainWindowViewModel? _mainWindowViewModel;
         private Question _activeQuestion;
         public QuestionPackViewModel? ActivePack { get => _mainWindowViewModel?.ActivePack; }
-
         public Question ActiveQuestion
         {
             get => _activeQuestion;
@@ -31,7 +30,6 @@ namespace Labb_3_Quiz_Configurator.ViewModels
         public ICommand OpenPackOptionsCommand { get; }
         public ICommand OpenNewQuestionPackCommand { get; }
 
-
         public ConfigurationViewModel(MainWindowViewModel? mainWindowViewModel)
         {
             this._mainWindowViewModel = mainWindowViewModel;
@@ -40,7 +38,7 @@ namespace Labb_3_Quiz_Configurator.ViewModels
                 if (e.PropertyName == nameof(MainWindowViewModel.ActivePack))
                 {
                     RaisePropertyChanged(nameof(ActivePack));
-                    ActiveQuestion = ActivePack?.Questions.FirstOrDefault();
+                    ActiveQuestion = ActivePack?.Questions?.FirstOrDefault();
                 }
             };
 
@@ -69,7 +67,7 @@ namespace Labb_3_Quiz_Configurator.ViewModels
 
         private void RemoveQuestion()
         {
-            ActiveQuestion = ActivePack.Questions.FirstOrDefault();
+            ActiveQuestion = ActivePack?.Questions?.FirstOrDefault();
         }
 
         private void OpenPackOptions()
@@ -81,15 +79,18 @@ namespace Labb_3_Quiz_Configurator.ViewModels
 
         private void OpenNewQuestionPack()
         {
-            var newPack = new QuestionPackViewModel(new QuestionPack("New Pack"));
-
             var dialog = new CreateNewPackDialog();
-            dialog.DataContext = newPack;
+            var vm = dialog.ViewModel;
 
             if (dialog.ShowDialog() == true)
             {
-                _mainWindowViewModel.Packs.Add(newPack);
-                _mainWindowViewModel.ActivePack = newPack;
+                var pack = new QuestionPack(vm.Name, vm.Difficulty, vm.TimeLimitInSeconds);
+                var newPackVm = new QuestionPackViewModel(pack);
+
+                _mainWindowViewModel.Packs.Add(newPackVm);
+                _mainWindowViewModel.ActivePack = newPackVm;
+
+                _ = _mainWindowViewModel.SavePacksAsync();
             }
         }
 

@@ -1,7 +1,7 @@
 ﻿namespace Labb_3_Quiz_Configurator.Models;
 
 public enum Difficulty { Easy, Medium, Hard }
-internal class QuestionPack
+public class QuestionPack
 {
     public QuestionPack(string name, Difficulty difficulty = Difficulty.Medium, int timeLimitInSeconds = 30)
     {

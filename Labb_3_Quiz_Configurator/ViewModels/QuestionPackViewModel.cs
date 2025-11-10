@@ -5,9 +5,10 @@ using System.Collections.Specialized;
 namespace Labb_3_Quiz_Configurator.ViewModels;
 
 
-internal class QuestionPackViewModel : ViewModelBase
+public class QuestionPackViewModel : ViewModelBase
 {
     private readonly QuestionPack _model;
+    public QuestionPack Model => _model;
 
     public QuestionPackViewModel(QuestionPack model)
     {

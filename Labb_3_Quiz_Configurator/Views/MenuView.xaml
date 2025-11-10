@@ -29,6 +29,7 @@
             <Separator/>
             <MenuItem Header="E_xit" InputGestureText="Alt+F4" />
         </MenuItem>
+        
         <MenuItem Header="_Edit">
             <MenuItem Header="Add Question" InputGestureText="Insert"
                       Command="{Binding DataContext.ConfigurationViewModel.AddQuestionCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
@@ -38,20 +39,16 @@
             <MenuItem Header="Pack Options"
                       Command="{Binding DataContext.ConfigurationViewModel.OpenPackOptionsCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                       InputGestureText="Ctrl+O"/>
-      
         </MenuItem>
+        
         <MenuItem Header="_View">
-
             <MenuItem Header="Play" InputGestureText="Ctrl+P"
                       Command="{Binding DataContext.ShowPlayerViewCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
             <MenuItem Header="Edit" InputGestureText="Ctrl+E"
                       Command="{Binding DataContext.ShowConfigurationViewCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
             <Separator/>
-            <MenuItem Header="Fullscreen" InputGestureText="Ctrl+F"/>
-            
-            </MenuItem>
-
+            <MenuItem Header="Fullscreen" InputGestureText="Ctrl+F"
+                      Command="{Binding DataContext.ToggleFullscreenCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+        </MenuItem>
     </Menu>
-            
-    
 </UserControl>

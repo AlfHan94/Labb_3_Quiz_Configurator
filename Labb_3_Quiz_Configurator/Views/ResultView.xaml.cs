@@ -1,11 +1,9 @@
 ﻿using System.Windows.Controls;
 
 namespace Labb_3_Quiz_Configurator.Views;
-
-
-public partial class PlayerView : UserControl
+public partial class ResultView : UserControl
 {
-    public PlayerView()
+    public ResultView()
     {
         InitializeComponent();
     }

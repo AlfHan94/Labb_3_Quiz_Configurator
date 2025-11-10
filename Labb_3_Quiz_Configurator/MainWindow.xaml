@@ -5,26 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Labb_3_Quiz_Configurator"
         xmlns:views="clr-namespace:Labb_3_Quiz_Configurator.Views"
+        xmlns:vm="clr-namespace:Labb_3_Quiz_Configurator.ViewModels"
         mc:Ignorable="d"
         d:Height="800" d:Width="500"
         Title="MainWindow" Height="450" Width="800">
 
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:ConfigurationViewModel}">
+            <views:ConfigurationView/>
+        </DataTemplate>
 
-    <Window.InputBindings>
-        <KeyBinding Key="Insert" Command="{Binding ConfigurationViewModel.AddQuestionCommand}"/>
-        <KeyBinding Key="Delete" Command="{Binding ConfigurationViewModel.RemoveQuestionCommand}"/>
-        <KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding ConfigurationViewModel.OpenPackOptionsCommand}"/>
+        <DataTemplate DataType="{x:Type vm:PlayerViewModel}">
+            <views:PlayerView/>
+        </DataTemplate>
 
-    </Window.InputBindings>
-    
-    
+        <DataTemplate DataType="{x:Type vm:ResultViewModel}">
+            <views:ResultView/>
+        </DataTemplate>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <views:MenuView Grid.Row="0" />
+        <views:MenuView Grid.Row="0"/>
         <ContentControl Grid.Row="1" Content="{Binding CurrentView}"/>
     </Grid>
 </Window>
