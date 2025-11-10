@@ -52,22 +52,22 @@ namespace Labb_3_Quiz_Configurator.ViewModels
         {
             if (ActivePack != null)
             {
-                var newQuestion = new Question(
-                    "New Question",
-                    "",
-                    "",
-                    "",
-                    ""
-                );
-
+                var newQuestion = new Question("New Question", "", "", "", "");
                 ActivePack.Questions.Add(newQuestion);
                 ActiveQuestion = newQuestion;
+                _ = _mainWindowViewModel.SavePacksAsync();
             }
         }
 
         private void RemoveQuestion()
         {
-            ActiveQuestion = ActivePack?.Questions?.FirstOrDefault();
+            if (ActivePack != null && ActiveQuestion != null)
+            {
+                ActivePack.Questions.Remove(ActiveQuestion);
+                ActiveQuestion = ActivePack.Questions.FirstOrDefault();
+
+                _ = _mainWindowViewModel.SavePacksAsync();
+            }
         }
 
         private void OpenPackOptions()
