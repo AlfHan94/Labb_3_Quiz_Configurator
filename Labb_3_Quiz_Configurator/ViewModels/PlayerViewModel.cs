@@ -11,9 +11,8 @@ namespace Labb_3_Quiz_Configurator.ViewModels
     class PlayerViewModel : ViewModelBase
     {
         private readonly MainWindowViewModel? _mainWindowViewModel;
-
-        public DelegateCommand SetPackNameCommand { get; }
         public DelegateCommand AnswerCommand { get; }
+
 
         public QuestionPackViewModel? ActivePack { get => _mainWindowViewModel?.ActivePack; }
 
@@ -42,33 +41,58 @@ namespace Labb_3_Quiz_Configurator.ViewModels
         public PlayerViewModel(MainWindowViewModel? mainWindowViewModel)
         {
             this._mainWindowViewModel = mainWindowViewModel;
-            SetPackNameCommand = new DelegateCommand(SetPackName, CanSetPackName);
             AnswerCommand = new DelegateCommand(Answer);
             StartQuiz();
-            DemoText = string.Empty;
-
         }
-        private string _demoText;
-        public string DemoText
+
+
+        private void StartQuiz()
         {
-            get { return _demoText; }
-            set
+            _currentQuestionIndex = 0;
+            Score = 0;
+            LoadQuestion();
+        }
+        
+        private void LoadQuestion()
+        {
+            SelectedAnswer = null;
+            IsAnswering = true;
+
+            var answers = new List<string> { CurrentQuestion.CorrectAnswer };
+            answers.AddRange(CurrentQuestion.IncorrectAnswers);
+            ShuffledAnswers = answers.OrderBy(x => Guid.NewGuid()).ToList();
+
+            RaisePropertyChanged(nameof(CurrentQuestion));
+        }
+
+        private async void Answer(object selected)
+        {
+            if (!IsAnswering)
+                return;
+
+            IsAnswering = false;
+            SelectedAnswer = selected as string;
+
+            if (SelectedAnswer == CurrentQuestion.CorrectAnswer)
+                Score++;
+
+            RaisePropertyChanged(nameof(Score));
+            RaisePropertyChanged(nameof(SelectedAnswer));
+
+            await Task.Delay(2000);
+
+            _currentQuestionIndex++;
+            
+            if (_currentQuestionIndex >= ActivePack.Questions.Count)
             {
-                _demoText = value;
-                RaisePropertyChanged();
-                SetPackNameCommand.RaiseCanExecuteChanged();
+                ShowResultScreen();
+                return;
             }
         }
 
-        private bool CanSetPackName(object? arg)
+        private void ShowResultScreen()
         {
-            return DemoText.Length > 0;
-        }
-
-        private void SetPackName(object? obj)
-        {
-            ActivePack.Name= DemoText;
-            RaisePropertyChanged();
+            _mainWindowViewModel.CurrentView = new ResultView(_mainWindowViewModel, Score, ActivePack.Questions.Count);
         }
 
 
