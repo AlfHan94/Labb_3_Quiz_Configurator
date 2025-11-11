@@ -4,15 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Labb_3_Quiz_Configurator.Views"
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
     <Menu>
         <MenuItem Header="_File">
             <MenuItem Header="_New Question Pack"
+                      Icon="{fa:Icon FileCirclePlus}"
                       Command="{Binding DataContext.ConfigurationViewModel.OpenNewQuestionPackCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                       />
-            <MenuItem Header="_Select Question Pack" ItemsSource="{Binding DataContext.Packs, RelativeSource={RelativeSource AncestorType=Window}}">
+            <MenuItem Header="_Select Question Pack"
+                      Icon="{fa:Icon FolderOpen}"
+                      ItemsSource="{Binding DataContext.Packs, RelativeSource={RelativeSource AncestorType=Window}}">
                 <MenuItem.ItemContainerStyle>
                     <Style TargetType="MenuItem">
                         <Setter Property="Header" Value="{Binding Name}"/>
@@ -22,32 +26,49 @@
                     </Style>
                 </MenuItem.ItemContainerStyle>
             </MenuItem>
-
-            <MenuItem Header="Delete Question Pack"/>
+            <MenuItem Header="Delete Question Pack"
+                      Icon="{fa:Icon Trash}"
+                      />
             <Separator/>
-            <MenuItem Header="Import Questions" InputGestureText="Ctrl+I"/>
+            <MenuItem Header="Import Questions"
+                      Icon="{fa:Icon FileArrowUp}"
+                      InputGestureText="Ctrl+I"/>
             <Separator/>
-            <MenuItem Header="E_xit" InputGestureText="Alt+F4" />
+            <MenuItem Header="E_xit"
+                      Icon="{fa:Icon DoorOpen}"
+                      InputGestureText="Alt+F4" />
         </MenuItem>
         
         <MenuItem Header="_Edit">
-            <MenuItem Header="Add Question" InputGestureText="Insert"
+            <MenuItem Header="Add Question"
+                      Icon="{fa:Icon Plus}"
+                      InputGestureText="Insert"
                       Command="{Binding DataContext.ConfigurationViewModel.AddQuestionCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
-            <MenuItem Header="Remove Question" InputGestureText="Delete"
+            <MenuItem Header="Remove Question"
+                      Icon="{fa:Icon Minus}"
+                      InputGestureText="Delete"
                       Command="{Binding DataContext.ConfigurationViewModel.RemoveQuestionCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
             <Separator/>
             <MenuItem Header="Pack Options"
+                      Icon="{fa:Icon Gear}"
+                      InputGestureText="Ctrl+O"
                       Command="{Binding DataContext.ConfigurationViewModel.OpenPackOptionsCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                      InputGestureText="Ctrl+O"/>
+                      />
         </MenuItem>
         
         <MenuItem Header="_View">
-            <MenuItem Header="Play" InputGestureText="Ctrl+P"
+            <MenuItem Header="Play"
+                      Icon="{fa:Icon Play}"
+                      InputGestureText="Ctrl+P"
                       Command="{Binding DataContext.ShowPlayerViewCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
-            <MenuItem Header="Edit" InputGestureText="Ctrl+E"
+            <MenuItem Header="Edit"
+                      Icon="{fa:Icon PenToSquare}"
+                      InputGestureText="Ctrl+E"
                       Command="{Binding DataContext.ShowConfigurationViewCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
             <Separator/>
-            <MenuItem Header="Fullscreen" InputGestureText="Ctrl+F"
+            <MenuItem Header="Fullscreen"
+                      Icon="{fa:Icon Expand}"
+                      InputGestureText="Ctrl+F"
                       Command="{Binding DataContext.ToggleFullscreenCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
         </MenuItem>
     </Menu>
