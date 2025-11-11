@@ -8,9 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
-
         <conv:AnswerStateToBrushConverter x:Key="AnswerStateBrush"/>
-
         <Style x:Key="AnswerButton" TargetType="Button">
             <Setter Property="Width" Value="280"/>
             <Setter Property="Height" Value="90"/>
@@ -18,10 +16,51 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="15"/>
-            <Setter Property="Background" Value="#E3E3E3"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="#888"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="6"
+                                BorderThickness="2"
+                                BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsAnswering}" Value="True"/>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter TargetName="border" Property="Background" Value="#D8D8D8"/>
+                            </MultiDataTrigger>
+
+                            <DataTrigger Binding="{Binding ShowFeedback}" Value="True">
+                                <Setter TargetName="border" Property="Background">
+                                    <Setter.Value>
+                                        <MultiBinding Converter="{StaticResource AnswerStateBrush}">
+                                            <Binding Path="ShowFeedback"/>
+                                            <Binding Path="Content" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                            <Binding Path="CorrectAnswer"/>
+                                            <Binding Path="SelectedAnswer"/>
+                                        </MultiBinding>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
     </UserControl.Resources>
+
 
     <Viewbox Stretch="Uniform">
         <Grid Width="1200">
@@ -58,60 +97,26 @@
                     <Button Content="{Binding ShuffledAnswers[0]}"
                             Command="{Binding AnswerCommand}"
                             CommandParameter="{Binding ShuffledAnswers[0]}"
-                            Style="{StaticResource AnswerButton}">
-                        <Button.Background>
-                            <MultiBinding Converter="{StaticResource AnswerStateBrush}">
-                                <Binding Path="ShowFeedback"/>
-                                <Binding Path="Content" RelativeSource="{RelativeSource Self}"/>
-                                <Binding Path="CorrectAnswer"/>
-                                <Binding Path="SelectedAnswer"/>
-                            </MultiBinding>
-                        </Button.Background>
-                    </Button>
+                            Style="{StaticResource AnswerButton}"/>
+
                     <Button Content="{Binding ShuffledAnswers[1]}"
                             Command="{Binding AnswerCommand}"
                             CommandParameter="{Binding ShuffledAnswers[1]}"
-                            Style="{StaticResource AnswerButton}">
-                        <Button.Background>
-                            <MultiBinding Converter="{StaticResource AnswerStateBrush}">
-                                <Binding Path="ShowFeedback"/>
-                                <Binding Path="Content" RelativeSource="{RelativeSource Self}"/>
-                                <Binding Path="CorrectAnswer"/>
-                                <Binding Path="SelectedAnswer"/>
-                            </MultiBinding>
-                        </Button.Background>
-                    </Button>
+                            Style="{StaticResource AnswerButton}"/>
 
                     <Button Content="{Binding ShuffledAnswers[2]}"
                             Command="{Binding AnswerCommand}"
                             CommandParameter="{Binding ShuffledAnswers[2]}"
-                            Style="{StaticResource AnswerButton}">
-                        <Button.Background>
-                            <MultiBinding Converter="{StaticResource AnswerStateBrush}">
-                                <Binding Path="ShowFeedback"/>
-                                <Binding Path="Content" RelativeSource="{RelativeSource Self}"/>
-                                <Binding Path="CorrectAnswer"/>
-                                <Binding Path="SelectedAnswer"/>
-                            </MultiBinding>
-                        </Button.Background>
-                    </Button>
+                            Style="{StaticResource AnswerButton}"/>
 
                     <Button Content="{Binding ShuffledAnswers[3]}"
                             Command="{Binding AnswerCommand}"
                             CommandParameter="{Binding ShuffledAnswers[3]}"
-                            Style="{StaticResource AnswerButton}">
-                        <Button.Background>
-                            <MultiBinding Converter="{StaticResource AnswerStateBrush}">
-                                <Binding Path="ShowFeedback"/>
-                                <Binding Path="Content" RelativeSource="{RelativeSource Self}"/>
-                                <Binding Path="CorrectAnswer"/>
-                                <Binding Path="SelectedAnswer"/>
-                            </MultiBinding>
-                        </Button.Background>
-                    </Button>
+                            Style="{StaticResource AnswerButton}"/>
 
                 </UniformGrid>
             </StackPanel>
         </Grid>
     </Viewbox>
+
 </UserControl>
