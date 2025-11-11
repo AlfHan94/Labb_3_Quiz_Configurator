@@ -7,13 +7,11 @@ namespace Labb_3_Quiz_Configurator.ViewModels
     {
         private readonly MainWindowViewModel? _mainWindowViewModel;
         public DelegateCommand AnswerCommand { get; }
-        public QuestionPackViewModel? ActivePack { get => _mainWindowViewModel?.ActivePack; }
+        public QuestionPackViewModel? ActivePack => _mainWindowViewModel?.ActivePack;
 
         private int _currentQuestionIndex;
-        public int CurrentQuestionIndex
-        {
-            get => _currentQuestionIndex + 1;
-        }
+        public int CurrentQuestionIndex => _currentQuestionIndex + 1;
+
         public Question? CurrentQuestion
             => (ActivePack != null && _currentQuestionIndex < ActivePack.Questions.Count)
             ? ActivePack.Questions[_currentQuestionIndex] : null;
@@ -30,10 +28,26 @@ namespace Labb_3_Quiz_Configurator.ViewModels
         {
             get => _selectedAnswer;
             set { _selectedAnswer = value; RaisePropertyChanged(); }
-
         }
+
+        public string CorrectAnswer => CurrentQuestion?.CorrectAnswer;
+        public bool ShowFeedback => !IsAnswering;
+
         public int Score { get; private set; }
-        public bool IsAnswering { get; private set; } = true;
+
+      
+        private bool _isAnswering = true;
+        public bool IsAnswering
+        {
+            get => _isAnswering;
+            private set
+            {
+                _isAnswering = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(ShowFeedback));
+            }
+        }
+
         private int _timeRemaining;
         public int TimeRemaining
         {
@@ -41,28 +55,27 @@ namespace Labb_3_Quiz_Configurator.ViewModels
             set { _timeRemaining = value; RaisePropertyChanged(); }
         }
 
+
         public PlayerViewModel(MainWindowViewModel? mainWindowViewModel)
         {
-            this._mainWindowViewModel = mainWindowViewModel;
+            _mainWindowViewModel = mainWindowViewModel;
             AnswerCommand = new DelegateCommand(Answer);
         }
 
         public void StartQuiz()
         {
-            if (ActivePack == null || ActivePack.Questions == null || ActivePack.Questions.Count == 0)
+            if (ActivePack == null || ActivePack.Questions.Count == 0)
                 return;
 
             _currentQuestionIndex = 0;
             Score = 0;
             LoadQuestion();
         }
+
         private void LoadQuestion()
         {
             SelectedAnswer = null;
             IsAnswering = true;
-
-            if (ActivePack == null || _currentQuestionIndex < 0 || _currentQuestionIndex >= ActivePack.Questions.Count)
-                return;
 
             var q = CurrentQuestion;
             if (q == null) return;
@@ -77,10 +90,10 @@ namespace Labb_3_Quiz_Configurator.ViewModels
             RaisePropertyChanged(nameof(CurrentQuestion));
             RaisePropertyChanged(nameof(CurrentQuestionIndex));
         }
+
         private async void Answer(object selected)
         {
-            if (!IsAnswering)
-                return;
+            if (!IsAnswering) return;
 
             IsAnswering = false;
             SelectedAnswer = selected as string;
@@ -90,12 +103,11 @@ namespace Labb_3_Quiz_Configurator.ViewModels
 
             RaisePropertyChanged(nameof(Score));
             RaisePropertyChanged(nameof(SelectedAnswer));
+            RaisePropertyChanged(nameof(CorrectAnswer));
 
             await Task.Delay(2000);
 
             _currentQuestionIndex++;
-            RaisePropertyChanged(nameof(CurrentQuestion));
-            RaisePropertyChanged(nameof(CurrentQuestionIndex));
 
             if (_currentQuestionIndex >= ActivePack.Questions.Count)
             {
@@ -121,6 +133,5 @@ namespace Labb_3_Quiz_Configurator.ViewModels
             if (IsAnswering)
                 Answer(null);
         }
-
     }
 }

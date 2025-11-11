@@ -25,8 +25,5 @@ public class CreatePackViewModel : ViewModelBase
         get => _timeLimitInSeconds;
         set { _timeLimitInSeconds = value; RaisePropertyChanged(); }
     }
-    public QuestionPack BuildModel()
-    {
-        return new QuestionPack(Name, Difficulty, TimeLimitInSeconds);
-    }
+
 }
