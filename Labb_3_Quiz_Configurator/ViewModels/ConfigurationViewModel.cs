@@ -93,7 +93,5 @@ namespace Labb_3_Quiz_Configurator.ViewModels
                 _ = _mainWindowViewModel.SavePacksAsync();
             }
         }
-
-
     }
 }
