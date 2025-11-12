@@ -15,7 +15,6 @@ namespace Labb_3_Quiz_Configurator.Command
         public event EventHandler? CanExecuteChanged;
 
         public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-
         public DelegateCommand(Action<object?> execute, Func<object?, bool>? canExecute = null)
         {
             ArgumentNullException.ThrowIfNull(execute);

@@ -9,6 +9,7 @@ public class ConfigurationViewModel : ViewModelBase
 {
     private readonly MainWindowViewModel? _mainWindowViewModel;
     private Question _activeQuestion;
+
     public QuestionPackViewModel? ActivePack { get => _mainWindowViewModel?.ActivePack; }
     public Question ActiveQuestion
     {
@@ -23,7 +24,7 @@ public class ConfigurationViewModel : ViewModelBase
     public ICommand RemoveQuestionCommand { get; }
     public ICommand OpenPackOptionsCommand { get; }
     public ICommand OpenNewQuestionPackCommand { get; }
-    public DelegateCommand DeleteQuestionPackCommand { get; }
+    public ICommand DeleteQuestionPackCommand { get; }
 
     public ConfigurationViewModel(MainWindowViewModel? mainWindowViewModel)
     {
@@ -45,7 +46,8 @@ public class ConfigurationViewModel : ViewModelBase
 
         if (_mainWindowViewModel?.Packs is INotifyCollectionChanged packs)
         {
-            packs.CollectionChanged += (_, __) => DeleteQuestionPackCommand.RaiseCanExecuteChanged();
+            packs.CollectionChanged += (_, __) =>
+                ((DelegateCommand)DeleteQuestionPackCommand).RaiseCanExecuteChanged();
         }
     }
 
@@ -112,5 +114,8 @@ public class ConfigurationViewModel : ViewModelBase
     {
         return _mainWindowViewModel?.Packs?.Count > 1;
     }
-    public void NotifyPacksChanged() => DeleteQuestionPackCommand.RaiseCanExecuteChanged();
+    public void NotifyPacksChanged() =>
+    ((DelegateCommand)DeleteQuestionPackCommand).RaiseCanExecuteChanged();
+
+
 }
