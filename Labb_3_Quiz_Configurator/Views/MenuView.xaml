@@ -31,10 +31,6 @@
                       Command="{Binding DataContext.ConfigurationViewModel.DeleteQuestionPackCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                       />
             <Separator/>
-            <MenuItem Header="Import Questions"
-                      Icon="{fa:Icon FileArrowUp}"
-                      InputGestureText="Ctrl+I"/>
-            <Separator/>
             <MenuItem Header="E_xit"
                       Icon="{fa:Icon DoorOpen}"
                       InputGestureText="Alt+F4" />
