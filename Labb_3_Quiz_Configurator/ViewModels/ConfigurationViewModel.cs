@@ -74,9 +74,10 @@ namespace Labb_3_Quiz_Configurator.ViewModels
 
         private void OpenPackOptions()
         {
-            var dialog = new PackOptionsDialog();
-            dialog.DataContext = ActivePack;
+            var dialog = new PackOptionsDialog { DataContext = ActivePack };
             dialog.ShowDialog();
+
+            _ = _mainWindowViewModel.SavePacksAsync();
         }
 
         private void OpenNewQuestionPack()

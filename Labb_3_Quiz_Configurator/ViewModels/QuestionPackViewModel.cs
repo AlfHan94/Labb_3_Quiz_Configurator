@@ -10,11 +10,21 @@ public class QuestionPackViewModel : ViewModelBase
     private readonly QuestionPack _model;
     public QuestionPack Model => _model;
 
-    public QuestionPackViewModel(QuestionPack model)
+    private readonly MainWindowViewModel? _mainWindowViewModel;
+
+    public QuestionPackViewModel(QuestionPack model, MainWindowViewModel? mainWindowViewModel = null)
     {
         _model = model;
+        _mainWindowViewModel = mainWindowViewModel;
+
         Questions = new ObservableCollection<Question>(_model.Questions);
         Questions.CollectionChanged += Questions_CollectionChanged;
+
+        Questions.CollectionChanged += async (s, e) =>
+        {
+            if (_mainWindowViewModel != null)
+                await _mainWindowViewModel.SavePacksAsync();
+        };
 
     }
 

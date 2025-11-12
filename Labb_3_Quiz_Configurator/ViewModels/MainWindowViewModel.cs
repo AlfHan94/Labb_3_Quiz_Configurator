@@ -59,6 +59,7 @@ public class MainWindowViewModel : ViewModelBase
     {
         Packs = new ObservableCollection<QuestionPackViewModel>();
         _ = LoadPacksAsync();
+        Packs.CollectionChanged += async (s, e) => await SavePacksAsync();
         PlayerViewModel = new PlayerViewModel(this);
         ConfigurationViewModel = new ConfigurationViewModel(this);
         CurrentView = ConfigurationViewModel;
