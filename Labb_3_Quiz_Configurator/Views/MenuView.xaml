@@ -26,6 +26,7 @@
                     </Style>
                 </MenuItem.ItemContainerStyle>
             </MenuItem>
+            <Separator/>
             <MenuItem Header="Delete Question Pack"
                       Icon="{fa:Icon Trash}"
                       Command="{Binding DataContext.ConfigurationViewModel.DeleteQuestionPackCommand, RelativeSource={RelativeSource AncestorType=Window}}"

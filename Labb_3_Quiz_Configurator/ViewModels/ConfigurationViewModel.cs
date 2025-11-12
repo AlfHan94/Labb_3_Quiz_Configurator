@@ -2,6 +2,7 @@
 using Labb_3_Quiz_Configurator.Dialogs;
 using Labb_3_Quiz_Configurator.Models;
 using System.Collections.Specialized;
+using System.Windows;
 using System.Windows.Input;
 namespace Labb_3_Quiz_Configurator.ViewModels;
 
@@ -103,6 +104,14 @@ public class ConfigurationViewModel : ViewModelBase
         if (_mainWindowViewModel == null || ActivePack == null)
             return;
         if (_mainWindowViewModel.Packs.Count <= 1)
+            return;
+
+        var packName = string.IsNullOrWhiteSpace(ActivePack.Name) ? "this pack" : $"'{ActivePack.Name}'";
+        var message = $"Are you sure you want to delete {packName}?";
+        var caption = "Confirm Delete";
+        var result = MessageBox.Show(message, caption, MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+        if (result != MessageBoxResult.Yes)
             return;
 
         _mainWindowViewModel.Packs.Remove(ActivePack);
