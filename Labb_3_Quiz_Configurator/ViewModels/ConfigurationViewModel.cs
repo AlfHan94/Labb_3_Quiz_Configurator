@@ -106,7 +106,7 @@ public class ConfigurationViewModel : ViewModelBase
         if (_mainWindowViewModel.Packs.Count <= 1)
             return;
 
-        var packName = string.IsNullOrWhiteSpace(ActivePack.Name) ? "this pack" : $"'{ActivePack.Name}'";
+        var packName = $"'{ActivePack.Name}'";
         var message = $"Are you sure you want to delete {packName}?";
         var caption = "Confirm Delete";
         var result = MessageBox.Show(message, caption, MessageBoxButton.YesNo, MessageBoxImage.Warning);
