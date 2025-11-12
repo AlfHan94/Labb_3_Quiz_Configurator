@@ -20,17 +20,21 @@
         <DockPanel Height="30" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="0">
             <Label Content="{Binding ActivePack.Name}" FontWeight="Bold"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Width="20" Margin="5"
-                        Command="{Binding OpenPackOptionsCommand}">
-                    <fa:IconBlock Icon="Gear" Width="16" Height="16"/>
+                <Button Width="18" Margin="5"
+                        Command="{Binding OpenPackOptionsCommand}" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <fa:IconBlock Icon="Gear" Width="14" Height="14">
+                        <fa:IconBlock.RenderTransform>
+                            <TranslateTransform Y="1"/>
+                        </fa:IconBlock.RenderTransform>
+                    </fa:IconBlock>
                 </Button>
-                <Button Width="20" Margin="5"
-                        Command="{Binding AddQuestionCommand}">
-                    <fa:IconBlock Icon="Plus" Width="16" Height="16"/>
+                <Button Width="18" Margin="5"
+                        Command="{Binding AddQuestionCommand}" Height="18">
+                    <fa:IconBlock Icon="Plus" Width="14" Height="14"/>
                 </Button>
-                <Button Width="20" Margin="5"
-                        Command="{Binding RemoveQuestionCommand}">
-                    <fa:IconBlock Icon="Minus" Width="16" Height="16"/>
+                <Button Width="18" Margin="5"
+                        Command="{Binding RemoveQuestionCommand}" Height="18">
+                    <fa:IconBlock Icon="Minus" Width="14" Height="14"/>
                 </Button>
             </StackPanel>
         </DockPanel>
