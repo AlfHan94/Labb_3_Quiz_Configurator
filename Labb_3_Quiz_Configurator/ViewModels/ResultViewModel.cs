@@ -1,5 +1,4 @@
 ﻿using Labb_3_Quiz_Configurator.Command;
-
 namespace Labb_3_Quiz_Configurator.ViewModels;
 
 class ResultViewModel : ViewModelBase

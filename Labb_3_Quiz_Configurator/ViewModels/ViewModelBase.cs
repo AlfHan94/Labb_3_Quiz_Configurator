@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-
 namespace Labb_3_Quiz_Configurator.ViewModels;
 
 public class ViewModelBase : INotifyPropertyChanged
