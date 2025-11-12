@@ -29,7 +29,7 @@ namespace Labb_3_Quiz_Configurator.ViewModels
         public ICommand RemoveQuestionCommand { get; }
         public ICommand OpenPackOptionsCommand { get; }
         public ICommand OpenNewQuestionPackCommand { get; }
-
+        public ICommand DeleteQuestionPackCommand { get; }
         public ConfigurationViewModel(MainWindowViewModel? mainWindowViewModel)
         {
             this._mainWindowViewModel = mainWindowViewModel;
@@ -46,6 +46,8 @@ namespace Labb_3_Quiz_Configurator.ViewModels
             RemoveQuestionCommand = new DelegateCommand(_ => RemoveQuestion());
             OpenPackOptionsCommand = new DelegateCommand(_ => OpenPackOptions());
             OpenNewQuestionPackCommand = new DelegateCommand(_ => OpenNewQuestionPack());
+            DeleteQuestionPackCommand = new DelegateCommand(_ => DeleteQuestionPack());
+
         }
 
         private void AddQuestion()
@@ -92,6 +94,24 @@ namespace Labb_3_Quiz_Configurator.ViewModels
 
                 _ = _mainWindowViewModel.SavePacksAsync();
             }
+        }
+
+        private void DeleteQuestionPack()
+        {
+            if (_mainWindowViewModel == null || ActivePack == null)
+                return;
+            if (_mainWindowViewModel.Packs.Count <= 1)
+                return;
+
+            _mainWindowViewModel.Packs.Remove(ActivePack);
+            _mainWindowViewModel.ActivePack = _mainWindowViewModel.Packs.FirstOrDefault();
+
+            _ = _mainWindowViewModel.SavePacksAsync();
+
+        }
+        private bool CanDeletePack()
+        {
+            return _mainWindowViewModel?.Packs?.Count > 1;
         }
     }
 }
