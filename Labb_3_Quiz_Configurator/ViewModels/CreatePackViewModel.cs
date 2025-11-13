@@ -1,5 +1,4 @@
 ﻿using Labb_3_Quiz_Configurator.Models;
-
 namespace Labb_3_Quiz_Configurator.ViewModels;
 
 public class CreatePackViewModel : ViewModelBase
