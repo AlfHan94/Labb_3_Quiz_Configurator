@@ -1,17 +1,17 @@
 ﻿using Labb_3_Quiz_Configurator.Models;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-
 namespace Labb_3_Quiz_Configurator.ViewModels;
-
 
 public class QuestionPackViewModel : ViewModelBase
 {
-    private readonly QuestionPack _model;
-    public QuestionPack Model => _model;
-
     private readonly MainWindowViewModel? _mainWindowViewModel;
 
+    private readonly QuestionPack _model;
+    public QuestionPack Model => _model;
+    public ObservableCollection<Question> Questions { get; set; }
+
+    
     public QuestionPackViewModel(QuestionPack model, MainWindowViewModel? mainWindowViewModel = null)
     {
         _model = model;
@@ -20,12 +20,16 @@ public class QuestionPackViewModel : ViewModelBase
         Questions = new ObservableCollection<Question>(_model.Questions);
         Questions.CollectionChanged += Questions_CollectionChanged;
 
-        Questions.CollectionChanged += async (s, e) =>
-        {
-            if (_mainWindowViewModel != null)
-                await _mainWindowViewModel.SavePacksAsync();
-        };
+        SubscribeToQuestionChanges();
+    }
 
+    private void SubscribeToQuestionChanges()
+    {
+        foreach (var q in Questions)
+            q.PropertyChanged += (_, __) =>
+            {
+
+            };
     }
 
     private void Questions_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -61,7 +65,6 @@ public class QuestionPackViewModel : ViewModelBase
             RaisePropertyChanged();
         }
     }
-
     public int TimeLimitInSeconds
     {
         get => _model.TimeLimitInSeconds;
@@ -71,8 +74,7 @@ public class QuestionPackViewModel : ViewModelBase
             RaisePropertyChanged();
         }
     }
-
-    public ObservableCollection<Question> Questions { get; set; }
+    
 
 
 
